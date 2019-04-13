@@ -5,18 +5,21 @@ namespace PracticeFirst
 {
     class MainClass
     {
+
         public static void Main(string[] args)
         {
-            StreamReader reader = new StreamReader("INPUT.TXT"); //Поток ввода
-            StreamWriter writer = new StreamWriter("OUTPUT.TXT");//Поток вывода
+            var reader = new StreamReader("INPUT.TXT"); //Поток ввода
+            var writer = new StreamWriter("OUTPUT.TXT");//Поток вывода
+            var monthSize = new int[] { 0, 31, 0, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30 }; 
             string[] currentDate; //Текущая дата
             string[] birthdayDate;//Дата дня рождения
-            int year = 0;         //Год рождения 
-            int currentDay = 0;   //Текущий день
-            int currentMonth = 0; //Текущий месяц
-            int birthdayDay = 0;  //День рождения
-            int birthdayMonth = 0;//Месяц рождения
-            int days = 0;         //Дни до следующего дня рождения
+            var year = 0;         //Год рождения 
+            var currentDay = 0;   //Текущий день
+            var currentMonth = 0; //Текущий месяц
+            var birthdayDay = 0;  //День рождения
+            var birthdayMonth = 0;//Месяц рождения
+            var days = 0;         //Дни до следующего дня рождения
+            var monthDays = 0;
 
             try {
                 currentDate = reader.ReadLine().Split(' ');
@@ -39,16 +42,34 @@ namespace PracticeFirst
                 Environment.Exit(1);
             }
 
-            //Проверка на високосный год
-            //Если год високосный - добавляем три года
-            //к количеству дней
-            if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
-                days = 365 * 3;
 
-            //Отнимаем от произведения дней и месяцев дня рождения от соответствующих текущих
-            days = currentDay * currentMonth - birthdayDay * birthdayMonth;
-            if (days < 0)
-                days *= -1;
+
+            //Проверка на високосный год
+            if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
+                monthSize[2] = 29;
+            else
+                monthSize[2] = 28;
+
+            monthDays = monthSize[currentMonth];
+
+            while (!(currentDay == birthdayDay && currentMonth == birthdayMonth))
+            {
+                if (currentDay == 31 && currentMonth == 12)
+                {
+                    currentDay = 1;
+                    currentMonth = 1;
+                }
+                else if (currentDay == monthDays)
+                {
+                    currentDay = 1;
+                }
+                else
+                    days++;
+
+                days++;
+
+            }
+
 
             writer.WriteLine(days);
             writer.Close();
