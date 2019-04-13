@@ -50,6 +50,8 @@ namespace PracticeFirst
             if (days < 0)
                 days *= -1;
 
+            writer.WriteLine(days);
+            writer.Close();
         }
     }
 }
